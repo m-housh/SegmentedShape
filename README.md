@@ -13,7 +13,7 @@ A SwiftUI package that allows shapes to be broken into segments.  The segments t
 -----------
 In this example we will build the following animation that draws each segment of a square, line by line.
 
-![](SegmentedSquareDrawing.gif)
+![Segmented Square GIF](https://github.com/m-housh/SegmentedShape/SegmentedSquareDrawing.gif)
 
 ```swift
 
