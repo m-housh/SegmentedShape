@@ -4,6 +4,9 @@ A SwiftUI package that allows shapes to be broken into segments.  The segments t
 
 ## Example
 -----------
+In this example we will build the following animation that draws each segment of a square, line by line.
+
+![](SegmentedSquareDrawing.gif)
 
 ```swift
 
@@ -14,6 +17,11 @@ struct SegmentedSquare: SegmentedShape {
 
     var showing: SegmentsShown = .all
 
+    // Note: The container passed into a `Segment` closure contains the
+    // current path state and a reference to the bounding `CGRect`.  The same
+    // container will get passed to following `Segment`'s ending the drawing
+    // based on the `showing` variable.
+    
     static var segments = Segments {
         // left
         Segment { container in
@@ -69,4 +77,4 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 ```
-![](SegmentedSquareDrawing.gif)
+
