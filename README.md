@@ -9,6 +9,11 @@
 
 A SwiftUI package that allows shapes to be broken into segments.  The segments that get drawn at a given time can also be controlled for animations.
 
+## Documentation
+------------
+
+Full API documentation can be found [here](https://m-housh.github.io/SegmentedShape/).
+
 ## Example
 -----------
 In this example we will build the following animation that draws each segment of a square, line by line.
