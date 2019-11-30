@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+
+    <a title="  Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+          CombineValidations
+        </a>
+         (88% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html"> Reference</a>
+      <img class="carat" src="img/carat.png" />
+        Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/SegmentedPathContainer.html">SegmentedPathContainer</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/SegmentsShown.html">SegmentsShown</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/Path.html">Path</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/SegmentedShape.html">SegmentedShape</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Segment.html">Segment</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Segments.html">Segments</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Segments/Builder.html">– Builder</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content">
+            
+            <h1 id='segmentedshape' class='heading'>SegmentedShape</h1>
+
+<p><a href="https://travis-ci.org/m-housh/SegmentedShape"><img src="https://travis-ci.org/m-housh/SegmentedShape.svg?branch=master" alt="Build Status"></a>
+<a href="https://codecov.io/gh/m-housh/SegmentedShape"><img src="https://codecov.io/gh/m-housh/SegmentedShape/branch/master/graph/badge.svg" alt="codecov"></a>
+<a href="https://swift.org/package-manager/"><img src="https://img.shields.io/badge/SPM-Compatible-blueviolet.svg?style=flat" alt="SPM compatible"></a>
+<a href="https://swift.org"><img src="https://img.shields.io/badge/iOS-13-orange.svg" alt="Swift"></a>
+<a href="https://developer.apple.com/xcode"><img src="https://img.shields.io/badge/Xcode-11-blue.svg" alt="Xcode"></a>
+<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-red.svg" alt="MIT"></a></p>
+
+<p>A SwiftUI package that allows shapes to be broken into segments.  The segments that get drawn at a given time can also be controlled for animations.</p>
+<h2 id='example' class='heading'>Example</h2>
+
+<hr>
+
+<p>In this example we will build the following animation that draws each segment of a square, line by line.</p>
+
+<p><img src="SegmentedSquareDrawing.gif" alt=""></p>
+<pre class="highlight swift"><code>
+<span class="kd">import</span> <span class="kt">SwiftUI</span>
+<span class="kd">import</span> <span class="kt">SegmentedShape</span>
+
+<span class="kd">struct</span> <span class="kt">SegmentedSquare</span><span class="p">:</span> <span class="kt">SegmentedShape</span> <span class="p">{</span>
+
+    <span class="k">var</span> <span class="nv">showing</span><span class="p">:</span> <span class="kt">SegmentsShown</span> <span class="o">=</span> <span class="o">.</span><span class="n">all</span>
+
+    <span class="c1">// Note: The container passed into a `Segment` closure contains the</span>
+    <span class="c1">// current path state and a reference to the bounding `CGRect`.  The same</span>
+    <span class="c1">// container will get passed to following `Segment`'s ending the drawing</span>
+    <span class="c1">// based on the `showing` variable.</span>
+
+    <span class="kd">static</span> <span class="k">var</span> <span class="nv">segments</span> <span class="o">=</span> <span class="kt">Segments</span> <span class="p">{</span>
+        <span class="c1">// left</span>
+        <span class="kt">Segment</span> <span class="p">{</span> <span class="n">container</span> <span class="k">in</span>
+            <span class="k">let</span> <span class="nv">maxY</span> <span class="o">=</span> <span class="n">container</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">maxY</span>
+            <span class="n">container</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="nf">move</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="kt">CGPoint</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="n">maxY</span><span class="p">))</span>
+            <span class="n">container</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="nf">addLine</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="kt">CGPoint</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="p">}</span>
+        <span class="c1">// top</span>
+        <span class="kt">Segment</span> <span class="p">{</span> <span class="n">container</span> <span class="k">in</span>
+            <span class="k">let</span> <span class="nv">maxX</span> <span class="o">=</span> <span class="n">container</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">maxX</span>
+            <span class="n">container</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="nf">addLine</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="kt">CGPoint</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="n">maxX</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="p">}</span>
+        <span class="c1">// right</span>
+        <span class="kt">Segment</span> <span class="p">{</span> <span class="n">container</span> <span class="k">in</span>
+            <span class="k">let</span> <span class="nv">maxX</span> <span class="o">=</span> <span class="n">container</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">maxX</span>
+            <span class="k">let</span> <span class="nv">maxY</span> <span class="o">=</span> <span class="n">container</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">maxY</span>
+            <span class="n">container</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="nf">addLine</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="kt">CGPoint</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="n">maxX</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="n">maxY</span><span class="p">))</span>
+        <span class="p">}</span>
+        <span class="c1">// bottom</span>
+        <span class="kt">Segment</span> <span class="p">{</span> <span class="n">container</span> <span class="k">in</span>
+            <span class="k">let</span> <span class="nv">maxY</span> <span class="o">=</span> <span class="n">container</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">maxY</span>
+            <span class="n">container</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="nf">addLine</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="kt">CGPoint</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="n">maxY</span><span class="p">))</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+
+    <span class="kd">@State</span> <span class="k">var</span> <span class="nv">segmentsShown</span><span class="p">:</span> <span class="kt">SegmentsShown</span> <span class="o">=</span> <span class="o">.</span><span class="k">none</span>
+
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="n">some</span> <span class="kt">View</span> <span class="p">{</span>
+        <span class="kt">ZStack</span> <span class="p">{</span>
+            <span class="kt">SegmentedSquare</span><span class="p">(</span><span class="nv">showing</span><span class="p">:</span> <span class="n">segmentsShown</span><span class="p">)</span>
+                <span class="o">.</span><span class="nf">stroke</span><span class="p">()</span>
+                <span class="o">.</span><span class="nf">frame</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="nv">alignment</span><span class="p">:</span> <span class="o">.</span><span class="n">center</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="o">.</span><span class="nf">onAppear</span><span class="p">()</span> <span class="p">{</span>
+            <span class="c1">// Animate the drawing of the square line by line.</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">0</span><span class="o">...</span><span class="kt">SegmentedSquare</span><span class="o">.</span><span class="n">segments</span><span class="o">.</span><span class="n">count</span> <span class="p">{</span>
+                <span class="k">let</span> <span class="nv">interval</span> <span class="o">=</span> <span class="kt">Double</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="mf">0.1</span>
+                <span class="kt">Timer</span><span class="o">.</span><span class="nf">scheduledTimer</span><span class="p">(</span><span class="nv">withTimeInterval</span><span class="p">:</span> <span class="n">interval</span><span class="p">,</span> <span class="nv">repeats</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span>
+                    <span class="k">self</span><span class="o">.</span><span class="n">segmentsShown</span> <span class="o">=</span> <span class="o">.</span><span class="nf">max</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">struct</span> <span class="kt">ContentView_Previews</span><span class="p">:</span> <span class="kt">PreviewProvider</span> <span class="p">{</span>
+    <span class="kd">static</span> <span class="k">var</span> <span class="nv">previews</span><span class="p">:</span> <span class="n">some</span> <span class="kt">View</span> <span class="p">{</span>
+        <span class="kt">ContentView</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre>
+
+          </div>
+        </section>
+
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2019 <a class="link" href="" target="_blank" rel="external">Michael</a>. All rights reserved. (Last updated: 2019-11-30)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.12.0</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>

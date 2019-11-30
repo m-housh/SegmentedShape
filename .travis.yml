@@ -8,3 +8,12 @@ script:
     - set -o pipefail && xcodebuild -scheme SegmentedShape-Package -destination 'platform=iOS Simulator,name=iPhone 11,OS=13.2.2' -enableCodeCoverage YES clean build test | xcpretty
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+  - gem install jazzy
+  - make documentation
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep_history: true
+  on:
+      branch: master

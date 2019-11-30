@@ -1,0 +1,26 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/travis/build/m-housh/SegmentedShape/Sources/SegmentedShape/SegmentsShown.swift",
+      "line": 15,
+      "symbol": "SegmentsShown.none",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/m-housh/SegmentedShape/Sources/SegmentedShape/SegmentsShown.swift",
+      "line": 16,
+      "symbol": "SegmentsShown.all",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/travis/build/m-housh/SegmentedShape/Sources/SegmentedShape/SegmentsShown.swift",
+      "line": 17,
+      "symbol": "SegmentsShown.max(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/travis/build/m-housh/SegmentedShape"
+}

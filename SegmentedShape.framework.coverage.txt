@@ -1,0 +1,223 @@
+/Users/travis/build/m-housh/SegmentedShape/Sources/SegmentedShape/Path + applying.swift:
+    1|       |//
+    2|       |//  Path + applying.swift
+    3|       |//  
+    4|       |//
+    5|       |//  Created by Michael Housh on 11/29/19.
+    6|       |//
+    7|       |
+    8|       |import SwiftUI
+    9|       |
+   10|       |extension Path {
+   11|       |
+   12|       |    /// Applys a `Segment` to the path.
+   13|       |    ///
+   14|       |    /// - parameter segment: The `Segment` to apply.
+   15|       |    /// - parameter rect: The  bounding `CGRect`
+   16|       |    ///
+   17|     23|    public func applying(segment: Segment, in rect: CGRect) -> Path {
+   18|     23|        let container = SegmentedPathContainer(path: self, in: rect)
+   19|     23|        segment.run(on: container)
+   20|     23|        return container.path
+   21|     23|    }
+   22|       |}
+
+/Users/travis/build/m-housh/SegmentedShape/Sources/SegmentedShape/Segment.swift:
+    1|       |//
+    2|       |//  Segment.swift
+    3|       |//  
+    4|       |//
+    5|       |//  Created by Michael Housh on 11/29/19.
+    6|       |//
+    7|       |
+    8|       |/**
+    9|       | # Segment
+   10|       |
+   11|       | A  container that holds a closure that can be used to draw a segment in a `SegmentedPathContainer`.
+   12|       | 
+   13|       | */
+   14|       |public struct Segment {
+   15|       |
+   16|       |    /// The signature of a `Closure`
+   17|       |    public typealias Closure = (SegmentedPathContainer) -> Void
+   18|       |
+   19|       |    private let closure: Closure
+   20|       |
+   21|       |    /// Create a new `Segment`
+   22|       |    ///
+   23|       |    /// - parameter closure: The `Closure` used to create the segment.
+   24|       |    ///
+   25|      4|    public init(_ closure: @escaping Closure) {
+   26|      4|        self.closure = closure
+   27|      4|    }
+   28|       |
+   29|       |    /// Run the `Closure` on the given container.
+   30|       |    ///
+   31|       |    /// - parameter container: The `SegmentedPathContainer` to run the closure on.
+   32|     23|    public func run(on container: SegmentedPathContainer) {
+   33|     23|        closure(container)
+   34|     23|    }
+   35|       |}
+
+/Users/travis/build/m-housh/SegmentedShape/Sources/SegmentedShape/SegmentedPathContainer.swift:
+    1|       |//
+    2|       |//  SegmentedPathContainer.swift
+    3|       |//  
+    4|       |//
+    5|       |//  Created by Michael Housh on 11/29/19.
+    6|       |//
+    7|       |
+    8|       |import SwiftUI
+    9|       |
+   10|       |/**
+   11|       | # SegmentedPathContainer
+   12|       | 
+   13|       | Holds the `Path` and bounding `CGRect` while a `Segment`(s) is being processed.
+   14|       | 
+   15|       | */
+   16|       |public final class SegmentedPathContainer {
+   17|       |
+   18|       |    /// The current `Path`
+   19|       |    public var path: Path
+   20|       |
+   21|       |    /// The bounding `CGRect`
+   22|       |    public let rect: CGRect
+   23|       |
+   24|       |    /// Create a new `SegmentedPathContainer`
+   25|       |    ///
+   26|       |    /// - parameter path: The  current `Path`.
+   27|       |    /// - parameter rect: The bounding `CGRect`
+   28|       |    ///
+   29|     23|    public init(path: Path = Path(), in rect: CGRect) {
+   30|     23|        self.path = path
+   31|     23|        self.rect = rect
+   32|     23|    }
+   33|       |}
+
+/Users/travis/build/m-housh/SegmentedShape/Sources/SegmentedShape/SegmentedShape.swift:
+    1|       |//
+    2|       |//  Segment.swift
+    3|       |//
+    4|       |//
+    5|       |//  Created by Michael Housh on 11/29/19.
+    6|       |//
+    7|       |
+    8|       |import SwiftUI
+    9|       |
+   10|       |/**
+   11|       | # SegmentedShape
+   12|       | 
+   13|       | A shape that can be drawn by different `Segment`s.  Can also limit the segments
+   14|       | drawn at a given time.
+   15|       | 
+   16|       | */
+   17|       |public protocol SegmentedShape: Shape {
+   18|       |
+   19|       |    /// The `Segments` that can draw the entire shape.
+   20|       |    static var segments: Segments { get }
+   21|       |
+   22|       |    /// Allows limiting the segments showing.
+   23|       |    /// - default: `.all`
+   24|       |    ///
+   25|       |    var showing: SegmentsShown { get }
+   26|       |
+   27|       |//    init(showing: SegmentsShown)
+   28|       |
+   29|       |}
+   30|       |
+   31|       |extension SegmentedShape {
+   32|       |
+   33|      1|    public var showing: SegmentsShown { return .all }
+   34|       |
+   35|       |    // Trims the segments based on `showing` value.
+   36|      7|    private var segmentsShown: [Segment] {
+   37|      7|
+   38|      7|        let segments = Self.segments.allSegments
+   39|      7|
+   40|      7|        switch showing {
+   41|      7|        case .all:
+   42|      5|            return segments
+   43|      7|        case .none:
+   44|      1|            return []
+   45|      7|        case .max(let max):
+   46|      1|            return Array(segments.prefix(max))
+   47|      7|        }
+   48|      7|    }
+   49|       |
+   50|       |    /// Generates a path based on current state and `showing`.
+   51|       |    ///
+   52|       |    /// - SeeAlso: `Shape`
+   53|      7|    public func path(in rect: CGRect) -> Path {
+   54|     22|        segmentsShown.reduce(Path()) { path, segment in
+   55|     22|            return path.applying(segment: segment, in: rect)
+   56|     22|        }
+   57|      7|    }
+   58|       |
+   59|       |}
+
+/Users/travis/build/m-housh/SegmentedShape/Sources/SegmentedShape/Segments.swift:
+    1|       |//
+    2|       |//  Segments.swift
+    3|       |//  
+    4|       |//
+    5|       |//  Created by Michael Housh on 11/29/19.
+    6|       |//
+    7|       |
+    8|       |/**
+    9|       | # Segments
+   10|       | 
+   11|       | Holds a group of `Segment`s that together build a `SegmentedShape`.
+   12|       |
+   13|       | */
+   14|       |public struct Segments {
+   15|       |
+   16|       |    /// All the `Segment` closures to build a `SegmentedShape`
+   17|       |    public let allSegments: [Segment]
+   18|       |
+   19|       |    /// A function builder that allows `Segments` to be initialized
+   20|       |    /// without using commos between `Segment`s.
+   21|       |    @_functionBuilder
+   22|       |    public struct Builder {
+   23|       |
+   24|       |        /// The builder function.
+   25|      1|        public static func buildBlock(_ segments: Segment...) -> [Segment] {
+   26|      1|            return segments
+   27|      1|        }
+   28|       |    }
+   29|       |
+   30|       |    /// Create a new `Segments` instance using the `Builder`
+   31|       |    ///
+   32|       |    ///  Example:
+   33|       |    ///  -------
+   34|       |    ///
+   35|       |    ///  ```
+   36|       |    ///  let segments = Segments {
+   37|       |    ///
+   38|       |    ///     Segment { container in
+   39|       |    ///         container.move(to: CGPoint(x: 0, y: container.rect.maxY))
+   40|       |    ///         container.addLine(to: CGPoint(x: 0, y: 0))
+   41|       |    ///     }
+   42|       |    ///
+   43|       |    ///     Segment { container in
+   44|       |    ///         container.addLine(to: CGPoint(x: container.rect.maxX, y: 0))
+   45|       |    ///     }
+   46|       |    /// }
+   47|       |    ///```
+   48|       |    ///
+   49|       |    ///
+   50|      1|    public init(@Builder _ builder: () -> [Segment]) {
+   51|      1|        self.allSegments = builder()
+   52|      1|    }
+   53|       |
+   54|       |    /// Create a new `Segments` instance.
+   55|       |    ///
+   56|       |    /// - parameter segments: The array of`Segment`'s to use
+   57|       |    ///
+   58|      1|    public init(segments: [Segment]) {
+   59|      1|        self.allSegments = segments
+   60|      1|    }
+   61|       |
+   62|       |    /// The count of the `Segment`'s in this instance.
+   63|      2|    public var count: Int { allSegments.count }
+   64|       |}
+
