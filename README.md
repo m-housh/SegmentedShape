@@ -26,24 +26,24 @@ struct SegmentedSquare: SegmentedShape {
         // left
         Segment { container in
             let maxY = container.rect.maxY
-            container.path.move(to: .init(x: 0, y: maxY))
-            container.path.addLine(to: .init(x: 0, y: 0))
+            container.path.move(to: CGPoint(x: 0, y: maxY))
+            container.path.addLine(to: CGPoint(x: 0, y: 0))
         }
         // top
         Segment { container in
             let maxX = container.rect.maxX
-            container.path.addLine(to: .init(x: maxX, y: 0))
+            container.path.addLine(to: CGPoint(x: maxX, y: 0))
         }
         // right
         Segment { container in
             let maxX = container.rect.maxX
             let maxY = container.rect.maxY
-            container.path.addLine(to: .init(x: maxX, y: maxY))
+            container.path.addLine(to: CGPoint(x: maxX, y: maxY))
         }
         // bottom
         Segment { container in
             let maxY = container.rect.maxY
-            container.path.addLine(to: .init(x: 0, y: maxY))
+            container.path.addLine(to: CGPoint(x: 0, y: maxY))
         }
     }
 }
