@@ -1,0 +1,10 @@
+language: objective-c
+osx_image: xcode11.2
+before_install:
+    - swift package resolve
+    - gem install xcpretty
+script:
+    - swift package generate-xcodeproj
+    - set -o pipefail && xcodebuild -scheme UnitConversions-Package -enableCodeCoverage YES clean build test | xcpretty
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
