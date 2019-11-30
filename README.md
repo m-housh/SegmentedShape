@@ -2,6 +2,10 @@
 
 [![Build Status](https://travis-ci.org/m-housh/SegmentedShape.svg?branch=master)](https://travis-ci.org/m-housh/SegmentedShape)
 [![codecov](https://codecov.io/gh/m-housh/SegmentedShape/branch/master/graph/badge.svg)](https://codecov.io/gh/m-housh/SegmentedShape)
+[![SPM compatible](https://img.shields.io/badge/SPM-Compatible-blueviolet.svg?style=flat)](https://swift.org/package-manager/)
+[![Swift](https://img.shields.io/badge/iOS-13-orange.svg)](https://swift.org)
+[![Xcode](https://img.shields.io/badge/Xcode-11-blue.svg)](https://developer.apple.com/xcode)
+[![MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT)
 
 A SwiftUI package that allows shapes to be broken into segments.  The segments that get drawn at a given time can also be controlled for animations.
 
