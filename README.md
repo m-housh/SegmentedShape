@@ -1,5 +1,8 @@
 # SegmentedShape
 
+[![Build Status](https://travis-ci.org/m-housh/SegmentedShape.svg?branch=master)](https://travis-ci.org/m-housh/SegmentedShape)
+[![codecov](https://codecov.io/gh/m-housh/SegmentedShape/branch/master/graph/badge.svg)](https://codecov.io/gh/m-housh/SegmentedShape)
+
 A SwiftUI package that allows shapes to be broken into segments.  The segments that get drawn at a given time can also be controlled for animations.
 
 ## Example
